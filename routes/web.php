@@ -33,6 +33,6 @@ Route::redirect('/here', 'there');
 
 Route::get('/there', function () {
     return "Don't worry, you are there now!";
-});
+}) -> middleware(['auth']);
 
 require __DIR__.'/auth.php';
