@@ -19,4 +19,13 @@ class Post extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    protected $fillable = [
+        'user_id',
+        'community_id',
+        'title',
+        'description',
+        'slug',
+        'url'
+    ];
 }

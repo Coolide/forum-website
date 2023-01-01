@@ -16,4 +16,10 @@ class Community extends Model
     public function user(){
         return $this->hasOne(User::class);
     }
+
+    protected $fillable = [
+        'user_id',
+        'name',
+        'slug'
+    ];
 }
