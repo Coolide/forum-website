@@ -5,18 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Vote extends Model
 {
     use HasFactory;
 
-    public function comments(){
-        return $this->hasMany(Comment::class);
-    }
-
-    public function community(){
-        return $this->belongsTo(Community::class);
-    }
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function Post(){
+        return $this->belongsTo(Post::class);
     }
 }

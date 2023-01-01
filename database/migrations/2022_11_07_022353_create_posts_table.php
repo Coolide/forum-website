@@ -13,20 +13,24 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('post_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
-            $table->integer('up_votes')->nullable();
-            $table->string('text');
+            $table->bigInteger('community_id')->unsigned();
+            $table->string('title');
+            $table->text('description');
+            $table->string('slug')->uniqie();
+            $table->string('url')->uniqie();
+            $table->softDeletes();
             $table->timestamps();
-
-            $table->foreign('post_id')->references('id')->on('posts')
-                ->onDelete('cascade')->onUpdate('cascade');
-
-            $table->foreign('user_id')->references('id')->on('users')
+            
+            $table->foreign('community_id')->references('id')->on('communities')
             ->onDelete('cascade')->onUpdate('cascade');
 
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('cascade')->onUpdate('cascade');
+
+            
         });
     }
 
@@ -37,6 +41,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('posts');
     }
 };
