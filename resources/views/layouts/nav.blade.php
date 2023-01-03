@@ -26,11 +26,20 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-            <li ><a href="#">Home</a></li>
-            <li class="active"><a href="#">Communities</a></li>
+            <li ><a href="{{ route('home')}}">Home</a></li>
+            <li><a href="{{ route('communities')}}">Communities</a></li>
             <li><a href="#">Browse</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">Notifications
+                    <span class="badge">1</span>
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a>This is a test notification!</a></li>
+                </ul>
+            </li>
             <li><a href="#">My Profile</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
         </ul>

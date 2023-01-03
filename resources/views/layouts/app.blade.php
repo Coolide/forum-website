@@ -21,6 +21,25 @@
     <body>
         <!-- Navigation Bar -->
         @include('layouts.nav')
+
+        <!-- Error messages -->
+        @if($errors->any())
+            <div class="container-fluid text-center alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- Info messages -->
+        @if(session('message'))
+            <div class="container-fluid text-center alert alert-success">
+                <p>{{session('message')}}</p>
+            </div>
+        @endif
+
         <!-- Page Content -->
         <div>
             @yield('content')

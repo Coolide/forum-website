@@ -23,7 +23,8 @@ class CommunityController extends Controller
      */
     public function index()
     {
-        return view('community.view');
+        $communities = Community::paginate(4);
+        return view('community.view', ['communities' => $communities]);
     }
 
     /**
@@ -51,7 +52,7 @@ class CommunityController extends Controller
         $slug = strtolower($slug);
 
         $validatedData = $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:communities,name',
             'description' => 'required',
             'user_id' => 'required',
         ]);
@@ -63,7 +64,8 @@ class CommunityController extends Controller
         $community->slug = $slug;
         $community->save();
 
-        return dd($community['slug']);
+        session()->flash('message', 'New community created!');
+        return redirect()->route('communities');
     }
 
     /**

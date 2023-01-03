@@ -20,7 +20,7 @@ Route::get('/dashboard', function () {
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/communities', [CommunityController::class, 'index'])->middleware(['auth', 'verified'])->name('communities');
 Route::get('/community/create', [CommunityController::class, 'create'])->middleware(['auth', 'verified'])->name('community.create');
