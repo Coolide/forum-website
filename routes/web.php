@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use app/Http/Controllers/CommunityController;
+use App\Http\Controllers\CommunityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +18,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Route::get('/communities', CommunityController::class )->middleware(['auth', 'verified']);
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/communities', [CommunityController::class, 'index'] )->middleware(['auth', 'verified'])->name('communities');;
+Route::get('/community/create', [CommunityController::class, 'create'] )->middleware(['auth', 'verified'])->name('community.create');;
 
 
 
