@@ -22,8 +22,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/communities', [CommunityController::class, 'index'] )->middleware(['auth', 'verified'])->name('communities');;
-Route::get('/community/create', [CommunityController::class, 'create'] )->middleware(['auth', 'verified'])->name('community.create');;
+Route::get('/communities', [CommunityController::class, 'index'])->middleware(['auth', 'verified'])->name('communities');
+Route::get('/community/create', [CommunityController::class, 'create'])->middleware(['auth', 'verified'])->name('community.create');
+Route::post('community', [CommunityController::class, 'store'])->middleware(['auth', 'verified'])->name('community.store');
 
 
 

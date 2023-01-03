@@ -3,9 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Community;
 
 class CommunityController extends Controller
 {
+    public function slugify($text)
+    {
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+        $text = trim($text, '-');
+        $text = preg_replace('~-+~', '-', $text);
+        $text = strtolower($text);
+        return $text;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +23,7 @@ class CommunityController extends Controller
      */
     public function index()
     {
-        return view('community.create');
+        return view('community.view');
     }
 
     /**
@@ -23,7 +33,7 @@ class CommunityController extends Controller
      */
     public function create()
     {
-        //
+        return view('community.create');
     }
 
     /**
@@ -34,7 +44,26 @@ class CommunityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $slug = $request->name;
+        $slug = preg_replace('~[^\pL\d]+~u', '-', $slug);
+        $slug = trim($slug, '-');
+        $slug = preg_replace('~-+~', '-', $slug);
+        $slug = strtolower($slug);
+
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'user_id' => 'required',
+        ]);
+
+        $community = new Community;
+        $community->name = $validatedData['name'];
+        $community->description = $validatedData['description'];
+        $community->user_id = $validatedData['user_id'];
+        $community->slug = $slug;
+        $community->save();
+
+        return dd($community['slug']);
     }
 
     /**
@@ -81,4 +110,5 @@ class CommunityController extends Controller
     {
         //
     }
+
 }
