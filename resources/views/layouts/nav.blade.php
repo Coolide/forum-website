@@ -21,7 +21,8 @@
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-            <span class="icon-bar"></span>                        
+            <span class="icon-bar"></span>   
+            <span class="icon-bar"></span>                     
         </button>
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
@@ -29,8 +30,18 @@
             <li ><a href="{{ route('home')}}">Home</a></li>
             <li><a href="{{ route('communities')}}">Communities</a></li>
             <li><a href="#">Browse</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">Create
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{route('post.create')}}">Post</a></li>
+                    <li><a href="{{route('community.create')}}">Community</a></li>
+                </ul>
+            </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+            @if(!empty(Auth::user()->username))
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">Notifications
                     <span class="badge">1</span>
@@ -40,8 +51,12 @@
                     <li><a>This is a test notification!</a></li>
                 </ul>
             </li>
-            <li><a href="#">My Profile</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+                <li><a href="#">{{ Auth::user()->username }}</a></li>
+                <li><a href="{{ route('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+            @else
+                <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>
+            @endif
+
         </ul>
         </div>
     </div>

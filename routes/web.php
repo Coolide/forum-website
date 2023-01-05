@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,10 +21,18 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 })->name('home');
 
-Route::get('/communities', [CommunityController::class, 'index'])->middleware(['auth', 'verified'])->name('communities');
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
+Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+Route::get('post/create', [PostController::class, 'create'])->middleware(['auth', 'verified'])->name('post.create');
+
+Route::get('/communities', [CommunityController::class, 'index'])->name('communities');
 Route::get('/community/create', [CommunityController::class, 'create'])->middleware(['auth', 'verified'])->name('community.create');
 Route::post('community', [CommunityController::class, 'store'])->middleware(['auth', 'verified'])->name('community.store');
 
