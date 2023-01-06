@@ -19,8 +19,10 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
-        <!-- Navigation Bar -->
-        @include('layouts.nav')
+        @if(!request()->routeIs('login'))
+            <!-- Navigation Bar -->
+            @include('layouts.nav')
+        @endif
 
         <!-- Error messages -->
         @if($errors->any())
@@ -41,10 +43,12 @@
         @endif
 
         <!-- Page Content -->
-        <div>
+        <div class="container">
             @yield('content')
         </div>
-        <!-- Footer -->
-        @include('layouts.footer')
+        @if(!request()->routeIs('login'))
+            <!-- Footer -->
+            @include('layouts.footer')
+        @endif
     </body>
 </html>

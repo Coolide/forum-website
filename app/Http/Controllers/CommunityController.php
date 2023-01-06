@@ -24,7 +24,7 @@ class CommunityController extends Controller
     public function index()
     {
         $communities = Community::paginate(4);
-        return view('community.view', ['communities' => $communities]);
+        return view('community.view-all', ['communities' => $communities]);
     }
 
     /**

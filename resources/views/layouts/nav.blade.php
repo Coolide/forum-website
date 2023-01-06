@@ -27,7 +27,7 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-            <li ><a href="{{ route('home')}}">Home</a></li>
+            <li><a href="{{ route('home')}}">Home</a></li>
             <li><a href="{{ route('communities')}}">Communities</a></li>
             <li><a href="#">Browse</a></li>
             <li class="dropdown">
