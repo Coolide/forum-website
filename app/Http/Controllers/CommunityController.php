@@ -7,14 +7,6 @@ use App\Models\Community;
 
 class CommunityController extends Controller
 {
-    public function slugify($text)
-    {
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-        $text = trim($text, '-');
-        $text = preg_replace('~-+~', '-', $text);
-        $text = strtolower($text);
-        return $text;
-    }
 
     /**
      * Display a listing of the resource.

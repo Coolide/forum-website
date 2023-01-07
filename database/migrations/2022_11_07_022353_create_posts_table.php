@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('slug')->uniqie();
-            $table->string('url')->uniqie();
+            $table->string('file_path');
             $table->softDeletes();
             $table->timestamps();
             

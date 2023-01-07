@@ -26,6 +26,6 @@ class Post extends Model
         'title',
         'description',
         'slug',
-        'url'
+        'file_path'
     ];
 }
