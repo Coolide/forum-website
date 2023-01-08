@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Community;
 use App\Models\Post;
+use App\Models\Vote;
 
 class HomeController extends Controller
 {
@@ -17,7 +18,8 @@ class HomeController extends Controller
     {
         $communities = Community::all();
         $posts = Post::paginate(4);
-        return view('home', ['posts'=>$posts, 'communities'=>$communities]);
+        $votes = Vote::all();
+        return view('home', ['posts'=>$posts, 'communities'=>$communities, 'votes'=>$votes]);
     }
 
     /**

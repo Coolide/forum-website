@@ -26,7 +26,7 @@
                     <div class="caption">
                         <p>{{$post->title}}<p>
                         <a href="{{route('view.user', ['username'=> $post->username])}}"><span class="label label-info">By {{$post->username}}</span></a>
-                        <span class="label label-default">3 Likes</span>
+                        <span class="label label-default">{{$votes->where('votable_type', 'App\Models\Post')->where('votable_id', $post->id)->count()}} Likes</span>
                     </div>
                     </a>
                 </div>

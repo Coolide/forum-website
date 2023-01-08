@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Community;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Vote;
 
 class CommunityController extends Controller
 {
@@ -72,8 +73,9 @@ class CommunityController extends Controller
         $community = Community::where('slug', $slug)->firstOrFail();
         $creator = User::findOrFail($community->user_id);
         $posts = Post::where('community_id', $community->id)->paginate(4);
+        $votes = Vote::all();
 
-        return view('community.view', ['community' => $community, 'posts' => $posts, 'creator' => $creator]);
+        return view('community.view', ['community' => $community, 'posts' => $posts, 'creator' => $creator, 'votes' => $votes]);
     }
 
     /**

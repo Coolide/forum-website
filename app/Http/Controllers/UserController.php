@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Vote;
 
 class UserController extends Controller
 {
@@ -17,8 +18,9 @@ class UserController extends Controller
     {
         $user = User::where('username', $username)->firstOrFail();
         $posts = Post::where('user_id', $user->id)->paginate(4);
+        $votes = Vote::all();
         
-        return view('user.view', ['user'=> $user, 'posts' => $posts]);
+        return view('user.view', ['user'=> $user, 'posts' => $posts, 'votes' => $votes]);
     }
 
     /**
