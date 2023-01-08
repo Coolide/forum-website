@@ -12,16 +12,14 @@
         background-color: #555;
         color: white;
         padding: 15px;
-        /* position: fixed; */
+        position: fixed;
         bottom: 0;
         width: 100%;
         height: 50px;
     }
 </style>
 
-<body>
-    <footer class="container-fluid text-center">
+<footer class="container-fluid text-center">
     <p>Website created by Khalid Evans - 1907595</p>
-    </footer>
-</body>
+</footer>
 </html>

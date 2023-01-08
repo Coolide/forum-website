@@ -51,7 +51,7 @@
                     <li><a>This is a test notification!</a></li>
                 </ul>
             </li>
-                <li><a href="#">{{ Auth::user()->username }}</a></li>
+                <li><a href="{{route('view.user', ['username'=> Auth::user()->username])}}">{{ Auth::user()->username }}</a></li>
                 <li><a href="{{ route('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
             @else
                 <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Log In</a></li>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Post;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -11,9 +13,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($username)
     {
-        //
+        $user = User::where('username', $username)->firstOrFail();
+        $posts = Post::where('user_id', $user->id)->paginate(4);
+        
+        return view('user.view', ['user'=> $user, 'posts' => $posts]);
     }
 
     /**

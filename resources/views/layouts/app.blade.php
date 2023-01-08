@@ -18,6 +18,9 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
+    <style>
+        body { padding-bottom: 70px; }
+    </style>
     <body>
         @if(!request()->routeIs('login'))
             <!-- Navigation Bar -->

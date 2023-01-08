@@ -47,7 +47,7 @@
             </div>
             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
             <button type="submit" class="btn btn-default">Create</button>
-            <a href="{{ route('posts')}}">Cancel</a>
+            <a href="{{ route('home')}}">Cancel</a>
         </form>
     </div>
 @endsection

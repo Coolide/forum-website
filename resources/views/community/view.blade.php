@@ -6,16 +6,16 @@
     <style>
         img {
             object-position: center;
-            width: 100%;
+            width: 400px;
             height: auto;
-            aspect-ratio: 16/9;
+            aspect-ratio: 16/10;
         }
     </style>
 
     <div class="container">
         <div class="row text-center">
             <h1>You are viewing <b>{{$community->name}}</b>!</h1>
-            <a href="#"><span>Created by {{$creator->username}}</span></a>
+            <a href="{{route('view.user', ['username'=> $creator->username])}}"><span>Created by {{$creator->username}}</span></a>
         </div>
         <div class="row">
         @foreach ($posts as $post)
@@ -25,7 +25,7 @@
                     <img class="images" src="/images/{{$post->file_path}}">
                     <div class="caption">
                         <p>{{$post->title}}<p>
-                        <a href="#"><span class="label label-info">By coolide</span></a>
+                        <a href="{{route('view.user', ['username'=> $creator->username])}}"><span class="label label-info">By {{$creator->username}}</span></a>
                         <span class="label label-default">3 Likes</span>
                     </div>
                     </a>
