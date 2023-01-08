@@ -25,7 +25,7 @@
                     <img class="images" src="/images/{{$post->file_path}}">
                     <div class="caption">
                         <p>{{$post->title}}<p>
-                        <a href="{{route('view.user', ['username'=> $creator->username])}}"><span class="label label-info">By {{$creator->username}}</span></a>
+                        <a href="{{route('view.user', ['username'=> $post->username])}}"><span class="label label-info">By {{$post->username}}</span></a>
                         <span class="label label-default">3 Likes</span>
                     </div>
                     </a>

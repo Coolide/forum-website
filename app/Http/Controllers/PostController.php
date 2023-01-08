@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Community;
 use App\Models\Post;
+use App\Models\Vote;
 
 class PostController extends Controller
 {
@@ -20,7 +21,9 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)->firstOrFail();
         $creator = User::findOrFail($post->user_id);
         $community = Community::findOrFail($post->community_id);
-        return view('post.view', ['post' => $post, 'creator' => $creator, 'community' => $community]);
+        $votes = Vote::all();
+        // $likes = Vote::where()
+        return view('post.view', ['post' => $post, 'creator' => $creator, 'community' => $community, 'votes' => $votes]);
     }
 
     /**
@@ -65,6 +68,8 @@ class PostController extends Controller
         $post->user_id = $validatedData['user_id'];
         $post->community_id = $validatedData['community_id'];
         $post->slug = $slug;
+        $user = User::findOrFail($validatedData['user_id']);
+        $post->username = $user->username;
         $post->save();
 
         session()->flash('message', 'New post created!');

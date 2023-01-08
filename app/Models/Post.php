@@ -20,12 +20,17 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function votes(){
+        return $this->morphMany(Vote::class, 'votable');
+    }
+
     protected $fillable = [
         'user_id',
         'community_id',
         'title',
         'description',
         'slug',
+        'username',
         'file_path'
     ];
 }

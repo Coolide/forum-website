@@ -9,12 +9,12 @@ class Vote extends Model
 {
     use HasFactory;
 
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
-
-    public function Post(){
-        return $this->belongsTo(Post::class);
+    /**
+     * Get all of the models that own comments.
+     */
+    public function votable()
+    {
+        return $this->morphTo();
     }
 
     protected $fillable = [

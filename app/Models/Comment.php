@@ -17,6 +17,10 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function votes(){
+        return $this->morphMany(Vote::class, 'votable');
+    }
+
     protected $fillable = [
         'user_id',
         'post_id',

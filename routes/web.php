@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VoteController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
@@ -22,13 +24,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
 
 Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
@@ -44,6 +42,8 @@ Route::post('community', [CommunityController::class, 'store'])->middleware(['au
 Route::get('/community/{slug}', [CommunityController::class, 'show'])->name('show.community');
 
 Route::post('/comment', [CommentController::class, 'store'])->middleware(['auth', 'verified'])->name('comment.store');
+
+Route::post('/like', [Votecontroller::class, 'store'])->middleware(['auth', 'verified'])->name('like');
 
 
 
