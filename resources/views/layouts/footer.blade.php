@@ -12,7 +12,7 @@
         background-color: #555;
         color: white;
         padding: 15px;
-        position: fixed;
+        /* position: fixed; */
         bottom: 0;
         width: 100%;
         height: 50px;

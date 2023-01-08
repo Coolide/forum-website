@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Community;
+use App\Models\Post;
+use App\Models\User;
 
 class CommunityController extends Controller
 {
@@ -63,12 +65,15 @@ class CommunityController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $community = Community::where('slug', $slug)->firstOrFail();
+        $creator = User::findOrFail($community->user_id);
+        $posts = Post::where('community_id', $community->id)->paginate(4);
+
+        return view('community.view', ['community' => $community, 'posts' => $posts, 'creator' => $creator]);
     }
 
     /**

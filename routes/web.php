@@ -30,13 +30,14 @@ Route::get('/home', function () {
 
 Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-Route::get('/posts', [PostController::class, 'view'])->name('posts');
 Route::get('post/create', [PostController::class, 'create'])->middleware(['auth', 'verified'])->name('post.create');
 Route::post('post', [PostController::class, 'store'])->middleware(['auth', 'verified'])->name('post.store');
+Route::get('/post/{slug}', [PostController::class, 'index'])->name('show.post');
 
 Route::get('/communities', [CommunityController::class, 'index'])->name('communities');
 Route::get('/community/create', [CommunityController::class, 'create'])->middleware(['auth', 'verified'])->name('community.create');
 Route::post('community', [CommunityController::class, 'store'])->middleware(['auth', 'verified'])->name('community.store');
+Route::get('/community/{slug}', [CommunityController::class, 'show'])->name('show.community');
 
 
 

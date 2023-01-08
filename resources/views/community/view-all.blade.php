@@ -12,7 +12,7 @@
                 @foreach($communities as $communitiy)
                     <li>
                         <div class="panel panel-default">
-                            <div class="panel-heading"><a href="#"><h3>{{ $communitiy->name}}</h3></a></div>
+                            <div class="panel-heading"><a href="{{route('show.community', ['slug'=> $communitiy->slug])}}"><h3>{{ $communitiy->name}}</h3></a></div>
                             <div class="panel-body"><h3><small>{{ $communitiy->description}}</small></h3></div>
                         </div>
                     </li>
