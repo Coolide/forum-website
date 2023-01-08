@@ -36,11 +36,11 @@
                         @foreach ($posts as $post)
                             <div class="col-md-6">
                                 <div class="thumbnail">
-                                    <a href="#">
+                                    <a href="{{route('show.post', ['slug' => $post->slug])}}">
                                     <img class="images" src="/images/{{$post->file_path}}">
                                     <div class="caption">
                                         <p>{{$post->title}}<p>
-                                        <a href="#"><span class="label label-info">By coolide</span></a>
+                                        <a href="{{route('view.user', ['username'=> $user->username])}}"><span class="label label-info">By coolide</span></a>
                                         <span class="label label-default">3 Likes</span>
                                     </div>
                                     </a>
@@ -49,6 +49,7 @@
                         @endforeach
                     </div>
 
+                    @if ($posts->count() != 0)
                     <div class="row">
                         <div class="col-sm-4 text-center">
                             <a href="{{ $posts->nextPageUrl()}}">Next page</a>
@@ -64,6 +65,11 @@
                             <a href="{{ $posts->previousPageUrl()}}">Previous page</a>
                         </div>
                     </div>
+                    @else
+                    <div class="text-center">
+                        <h4>...Wow, very quiet in here<h4>
+                    </div>
+                    @endif
                 </div>
             </div>
             <div class="tab-pane" id="comments_tab">

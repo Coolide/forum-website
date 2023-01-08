@@ -21,7 +21,7 @@
         @foreach ($posts as $post)
             <div class="col-md-6">
                 <div class="thumbnail">
-                    <a href="#">
+                    <a href="{{route('show.post', ['slug' => $post->slug])}}">
                     <img class="images" src="/images/{{$post->file_path}}">
                     <div class="caption">
                         <p>{{$post->title}}<p>

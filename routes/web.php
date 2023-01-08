@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
@@ -41,6 +42,8 @@ Route::get('/communities', [CommunityController::class, 'index'])->name('communi
 Route::get('/community/create', [CommunityController::class, 'create'])->middleware(['auth', 'verified'])->name('community.create');
 Route::post('community', [CommunityController::class, 'store'])->middleware(['auth', 'verified'])->name('community.store');
 Route::get('/community/{slug}', [CommunityController::class, 'show'])->name('show.community');
+
+Route::post('/comment', [CommentController::class, 'store'])->middleware(['auth', 'verified'])->name('comment.store');
 
 
 

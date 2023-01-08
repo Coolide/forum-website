@@ -3,24 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Comment;
 use App\Models\User;
-use App\Models\Community;
 use App\Models\Post;
 
-class PostController extends Controller
+class CommentController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($slug)
+    public function index()
     {
-        $post = Post::where('slug', $slug)->firstOrFail();
-        $creator = User::findOrFail($post->user_id);
-        $community = Community::findOrFail($post->community_id);
-        return view('post.view', ['post' => $post, 'creator' => $creator, 'community' => $community]);
+        //
     }
 
     /**
@@ -30,8 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $communities = Community::all();
-        return view('post.create', ['communities' => $communities]);
+        //
     }
 
     /**
@@ -41,34 +36,24 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {    
+    {
         $validatedData = $request->validate([
-            'title' => 'required',
             'description' => 'required',
             'user_id' => 'required',
-            'community_id' => 'required',
-            'image' => 'required|mimes:jpeg,bmp,png,jpg',
+            'post_id' => 'required',
         ]);
-        $slug = $request->title;
-        $slug = preg_replace('~[^\pL\d]+~u', '-', $slug);
-        $slug = trim($slug, '-');
-        $slug = preg_replace('~-+~', '-', $slug);
-        $slug = strtolower($slug);
-        
-        $post = new Post;
-        
-        $image_name = $slug.'.'.$request->image->extension();
-        $request->image->move(public_path('images'), $image_name);
-        $post->file_path = $image_name;
-        $post->title = $validatedData['title'];
-        $post->description = $validatedData['description'];
-        $post->user_id = $validatedData['user_id'];
-        $post->community_id = $validatedData['community_id'];
-        $post->slug = $slug;
-        $post->save();
 
-        session()->flash('message', 'New post created!');
-        return redirect()->route('home');
+        $comment = new Comment;
+        $comment->user_id = $validatedData['user_id'];
+        $comment->post_id = $validatedData['post_id'];
+        $comment->description = $validatedData['description'];
+        $user = User::findOrFail($request->user_id);
+        $comment->username = $user->username;
+        $comment->save();
+
+        $post = Post::findOrFail($request->post_id);
+        session()->flash('message', 'New comment created!');
+        return redirect()->route('show.post', ['slug' => $post->slug]);
     }
 
     /**
