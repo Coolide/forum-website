@@ -27,27 +27,38 @@
         <div class="row text-center">
             <p><h3>{{$post->description}}<h3><p>
         </div>
-        <div class="row bottom-buffer">
-            <div class="btn-group">
+        @if(!empty(Auth::user()->username))
+            <div class="row bottom-buffer">
                 <div class="btn-group">
-                    <form method="POST" action="{{ route('like') }}">
-                        @csrf
-                        <label class="text-muted"><b>{{$votes->where('votable_type', 'App\Models\Post')->where('votable_id', $post->id)->count()}} Likes</b></label>
-                        <input type="hidden" name="post_id" value="{{ $post->id }}">
-                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                        <input type="hidden" name="username" value="{{ Auth::user()->username }}">
-                        <input type="hidden" name="vote_type" value="post">
-                        <button type="submit" class="btn btn-default "><span class="glyphicon glyphicon-thumbs-up"></span></button>
-                    </form>
+                    <div class="btn-group">
+                        <form method="POST" action="{{ route('like') }}">
+                            @csrf
+                            <label class="text-muted"><b>{{$votes->where('votable_type', 'App\Models\Post')->where('votable_id', $post->id)->count()}} Likes</b></label>
+                            <input type="hidden" name="post_id" value="{{ $post->id }}">
+                            <input type="hidden" name="user_id" value="{{ Auth::user()->id}}">
+                            <input type="hidden" name="username" value="{{ Auth::user()->username}}">
+                            <input type="hidden" name="vote_type" value="post">
+                            <button type="submit" class="btn btn-default "><span class="glyphicon glyphicon-thumbs-up"></span></button>
+                        </form>
+                    </div>
+                    @if (Auth::user()->id == $creator->id || Auth::user()->id == $community->user_id || Auth::user()->is_admin)
+                    <div class="btn-group">
+                        <a href= "{{route('edit.post', ['slug'=>$post->slug])}}"><button type="button" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></button></a>
+                    </div>
+                    @endif
+                    @if (Auth::user()->id == $creator->id || Auth::user()->is_admin)
+                    <div class="btn-group">
+                        <form method="POST" action="{{route('delete.post', ['slug'=>$post->slug])}}">
+                            @csrf
+                            @method('delete')
+                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                            <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                        </form>
+                    </div>
+                    @endif
                 </div>
-                @if (Auth::user()->id == $creator->id || Auth::user()->id == $community->user_id || Auth::user()->is_admin)
-                    <button type="button" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></button>
-                @endif
-                @if (Auth::user()->id == $creator->id || Auth::user()->is_admin)
-                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
-                @endif
             </div>
-        </div>
+        @endif
         <div class="row bottom-buffer">
             <form class="form-horizontal" method="POST" action="{{ route('comment.store') }}">
                 @csrf
@@ -78,22 +89,33 @@
                     <h4><a href="{{route('view.user', ['username'=> $creator->username])}}"><b>{{$comment->username}}</b></a> <small><i>Posted on {{$comment->created_at}} | <b>{{$votes->where('votable_type', 'App\Models\Comment')->where('votable_id', $comment->id)->count()}} Likes</b></i></small></h4>
                     <p>{{$comment->description}}</p>
                     <div class="btn-group">
-                <div class="btn-group">
-                    <form method="POST" action="{{ route('like') }}">
-                        @csrf
-                        <input type="hidden" name="comment_id" value="{{ $comment->id }}">
-                        <input type="hidden" name="post_id" value="{{ $post->id }}">
-                        <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                        <input type="hidden" name="username" value="{{ Auth::user()->username }}">
-                        <input type="hidden" name="vote_type" value="comment">
-                        <button type="submit" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-thumbs-up"></span></button>
-                    </form>
-                </div>
-                @if (Auth::user()->id == $creator->id || Auth::user()->id == $community->user_id || Auth::user()->is_admin)
-                    <button type="button" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span></button>
-                @endif
-                @if (Auth::user()->id == $creator->id || Auth::user()->is_admin)
-                    <button type="button" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button>
+                @if(!empty(Auth::user()->username))
+                    <div class="btn-group">
+                        <form method="POST" action="{{ route('like') }}">
+                            @csrf
+                            <input type="hidden" name="comment_id" value="{{ $comment->id }}">
+                            <input type="hidden" name="post_id" value="{{ $post->id }}">
+                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                            <input type="hidden" name="username" value="{{ Auth::user()->username }}">
+                            <input type="hidden" name="vote_type" value="comment">
+                            <button type="submit" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-thumbs-up"></span></button>
+                        </form>
+                    </div>
+                    @if (Auth::user()->id == $comment->user_id || Auth::user()->id == $community->user_id || Auth::user()->is_admin)
+                    <div class="btn-group">
+                        <a href="{{route('edit.comment', ['id'=>$comment->id])}}"><button type="button" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-edit"></span></button></a>
+                    </div>
+                    @endif
+                    @if (Auth::user()->id == $comment->user_id || Auth::user()->is_admin)
+                        <div class="btn-group">
+                            <form method="POST" action="{{route('delete.comment', ['id'=>$comment->id])}}">
+                                @csrf
+                                @method('delete')
+                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                <button type="submit" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span></button>
+                            </form>
+                        </div>
+                    @endif
                 @endif
             </div>
                 </div>

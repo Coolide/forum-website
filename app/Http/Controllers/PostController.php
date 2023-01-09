@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Community;
 use App\Models\Post;
 use App\Models\Vote;
+use App\Models\Notification;
 
 class PostController extends Controller
 {
@@ -22,7 +23,6 @@ class PostController extends Controller
         $creator = User::findOrFail($post->user_id);
         $community = Community::findOrFail($post->community_id);
         $votes = Vote::all();
-        // $likes = Vote::where()
         return view('post.view', ['post' => $post, 'creator' => $creator, 'community' => $community, 'votes' => $votes]);
     }
 
@@ -93,9 +93,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $post = Post::where('slug', $slug)->firstOrFail();
+        $communities = Community::all();
+
+        return view('post.edit', ['post'=>$post, 'communities'=>$communities]);
     }
 
     /**
@@ -105,9 +108,22 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        $post = Post::where('slug', $slug)->firstOrFail();
+        $post->description = $request->description;
+        $post->title = $request->title;
+        $post->update();
+
+        if($post->user_id != $request->user_id){
+            Notification::firstOrCreate(['description' => "Your recent post has been edited.", 'user_id' => $post->user_id]);
+        }
+
+        $creator = User::findOrFail($post->user_id);
+        $community = Community::findOrFail($post->community_id);
+        $votes = Vote::all();
+        session()->flash('message', 'Post edited!');
+        return view('post.view', ['post' => $post, 'creator' => $creator, 'community' => $community, 'votes' => $votes]);
     }
 
     /**
@@ -116,8 +132,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $slug)
     {
-        //
+        $post = Post::where('slug', $slug)->firstOrFail();
+        $community = Community::findOrFail($post->community_id);
+        if($post->user_id != $request->user_id){
+            Notification::firstOrCreate(['description' => "Your recent post has been deleted.", 'user_id' => $post->user_id]);
+        }
+        $post->delete();
+
+        return redirect()->route('show.community', ['slug'=>$community->slug]);
     }
 }

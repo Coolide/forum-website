@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comment;
+use App\Models\Community;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Vote;
+use App\Models\Notification;
 
 class CommentController extends Controller
 {
@@ -75,7 +78,9 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        $post = Post::findOrFail($comment->post_id);
+        return view('comment.edit', ['comment' => $comment, 'post' => $post]);
     }
 
     /**
@@ -87,7 +92,21 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $comment = Comment::find($id);
+        $comment->description = $request->description;
+        $comment->update();
+
+        $post = Post::findOrFail($request->post_id);
+        $creator = User::findOrFail($post->user_id);
+        $community = Community::findOrFail($post->community_id);
+        $votes = Vote::all();
+
+        if($comment->user_id != $request->user_id){
+            Notification::firstOrCreate(['description' => "Your recent comment has been edited.", 'user_id' => $comment->user_id]);
+        }
+
+        session()->flash('message', 'Comment edited!');
+        return view('post.view', ['post' => $post, 'creator' => $creator, 'community' => $community, 'votes' => $votes]);
     }
 
     /**
@@ -96,8 +115,20 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $comment = Comment::find($id);
+        if($comment->user_id != $request->user_id){
+            Notification::firstOrCreate(['description' => "Your recent comment has been deleted.", 'user_id' => $comment->user_id]);
+        }
+        $post = Post::findOrFail($comment->post_id);
+        $comment->delete();
+
+
+        $creator = User::findOrFail($post->user_id);
+        $community = Community::findOrFail($post->community_id);
+        $votes = Vote::all();
+        session()->flash('message', 'Comment deleted!');
+        return view('post.view', ['post' => $post, 'creator' => $creator, 'community' => $community, 'votes' => $votes]);
     }
 }

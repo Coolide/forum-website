@@ -35,6 +35,9 @@ Route::get('/user/{username}', [UserController::class, 'index'])->name('view.use
 Route::get('post/create', [PostController::class, 'create'])->middleware(['auth', 'verified'])->name('post.create');
 Route::post('post', [PostController::class, 'store'])->middleware(['auth', 'verified'])->name('post.store');
 Route::get('/post/{slug}', [PostController::class, 'index'])->name('show.post');
+Route::get('/post/edit/{slug}', [PostController::class, 'edit'])->middleware(['auth', 'verified'])->name('edit.post');
+Route::put('/post/update/{slug}', [PostController::class, 'update'])->middleware(['auth', 'verified'])->name('update.post');
+Route::delete('/post/delete/{slug}', [PostController::class, 'destroy'])->middleware(['auth', 'verified'])->name('delete.post');
 
 Route::get('/communities', [CommunityController::class, 'index'])->name('communities');
 Route::get('/community/create', [CommunityController::class, 'create'])->middleware(['auth', 'verified'])->name('community.create');
@@ -42,6 +45,9 @@ Route::post('community', [CommunityController::class, 'store'])->middleware(['au
 Route::get('/community/{slug}', [CommunityController::class, 'show'])->name('show.community');
 
 Route::post('/comment', [CommentController::class, 'store'])->middleware(['auth', 'verified'])->name('comment.store');
+Route::get('/comment/edit/{id}', [CommentController::class, 'edit'])->middleware(['auth', 'verified'])->name('edit.comment');
+Route::put('/comment/update/{id}', [CommentController::class, 'update'])->middleware(['auth', 'verified'])->name('update.comment');
+Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->middleware(['auth', 'verified'])->name('delete.comment');
 
 Route::post('/like', [Votecontroller::class, 'store'])->middleware(['auth', 'verified'])->name('like');
 

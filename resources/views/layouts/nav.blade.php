@@ -44,11 +44,15 @@
             @if(!empty(Auth::user()->username))
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">Notifications
-                    <span class="badge">1</span>
+                    @if(App\Models\Notification::where('user_id', Auth::user()->id)->count() > 0)
+                        <span class="badge">{{ App\Models\Notification::where('user_id', Auth::user()->id)->count() }}</span>
+                    @endif
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a>This is a test notification!</a></li>
+                    @foreach (App\Models\Notification::where('user_id', Auth::user()->id)->get() as $notification)
+                        <li><a>{{$notification->description}}</a></li>
+                    @endforeach
                 </ul>
             </li>
                 <li><a href="{{route('view.user', ['username'=> Auth::user()->username])}}">{{ Auth::user()->username }}</a></li>
