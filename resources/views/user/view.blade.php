@@ -37,7 +37,7 @@
                                     <img class="images" src="/images/{{$post->file_path}}">
                                     <div class="caption">
                                         <p>{{$post->title}}<p>
-                                        <a href="{{route('view.user', ['username'=> $user->username])}}"><span class="label label-info">By coolide</span></a>
+                                        <a href="{{route('view.user', ['username'=> $post->username])}}"><span class="label label-info">By {{$post->username}}<span></a>
                                         <span class="label label-default">{{$votes->where('votable_type', 'App\Models\Post')->where('votable_id', $post->id)->count()}} Likes</span>
                                     </div>
                                     </a>
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="tab-pane" id="comments_tab">
-                @foreach ($post->comments as $comment)
+                @foreach ($comments->where('user_id', $user->id) as $comment)
                     <div class="row">
                         <div class="media">
                             <a class="pull-left">

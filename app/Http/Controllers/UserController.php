@@ -20,7 +20,7 @@ class UserController extends Controller
         $user = User::where('username', $username)->firstOrFail();
         $posts = Post::where('user_id', $user->id)->paginate(4);
         $votes = Vote::all();
-        $commentes = Comment::all();
+        $comments = Comment::all();
         
         return view('user.view', ['user'=> $user, 'posts' => $posts, 'votes' => $votes, 'comments' => $comments]);
     }

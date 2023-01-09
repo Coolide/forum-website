@@ -90,7 +90,7 @@
                     <img class="media-object img-circle" src="/default_pfp.png" style="width:60px; height:60px;">
                 </a>
                 <div class="media-body">
-                    <h4><a href="{{route('view.user', ['username'=> $creator->username])}}"><b>{{$comment->username}}</b></a> <small><i>Posted on {{$comment->created_at}} | <b>{{$votes->where('votable_type', 'App\Models\Comment')->where('votable_id', $comment->id)->count()}} Likes</b></i></small></h4>
+                    <h4><a href="{{route('view.user', ['username'=> $comment->username])}}"><b>{{$comment->username}}</b></a> <small><i>Posted on {{$comment->created_at}} | <b>{{$votes->where('votable_type', 'App\Models\Comment')->where('votable_id', $comment->id)->count()}} Likes</b></i></small></h4>
                     <p>{{$comment->description}}</p>
                     <div class="btn-group">
                 @if(!empty(Auth::user()->username))
