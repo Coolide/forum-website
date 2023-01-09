@@ -21,7 +21,7 @@
     <div class="container">
         <div class="row text-center">
             <h1><b>{{$post->title}}</b></h1>
-            by <a href="{{route('view.user', ['username'=> $creator->username])}}"><span class="label label-info">{{$creator->username}}<span></a>
+            by <a href="{{route('view.user', ['username' => $creator->username])}}"><span class="label label-info">{{$creator->username}}<span></a>
             in <a href="{{route('show.community', ['slug' => $community->slug])}}"><span class="label label-primary">{{$community->name}}</span></a>
 
         </div>

@@ -20,9 +20,7 @@
             <div class="form-group">
                 <label class="col-lg-5 control-label" for="description">Description:</label>
                 <div class="col-lg-7">
-                    <textarea class="form-control" rows="15" name="description" placeholder="Write a description for the post">
-                        {{$post->description}}
-                    </textarea>
+                    <textarea class="form-control" rows="15" name="description" placeholder="Write a description for the post">{{$post->description}}</textarea>
                 </div>
             </div>
             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">

@@ -30,7 +30,6 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-Route::get('/user/{username}', [UserController::class, 'index'])->name('view.user');
 
 Route::get('post/create', [PostController::class, 'create'])->middleware(['auth', 'verified'])->name('post.create');
 Route::post('post', [PostController::class, 'store'])->middleware(['auth', 'verified'])->name('post.store');
@@ -51,6 +50,7 @@ Route::delete('/comment/{id}', [CommentController::class, 'destroy'])->middlewar
 
 Route::post('/like', [Votecontroller::class, 'store'])->middleware(['auth', 'verified'])->name('like');
 
+Route::get('/user/{username}', [UserController::class, 'index'])->name('view.user');
 
 
 

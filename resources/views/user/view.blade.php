@@ -24,9 +24,6 @@
             <li>
                 <a href="#comments_tab" data-toggle="tab">Comments</a>
             </li>
-            <li>
-                <a href="#likes_tab" data-toggle="tab">Likes</a>
-            </li>
         </ul>
 
         <div class="tab-content">
@@ -73,10 +70,19 @@
                 </div>
             </div>
             <div class="tab-pane" id="comments_tab">
-                <p>This is the comments<p>
-            </div>
-            <div class="tab-pane" id="likes_tab">
-                <p>This is the likes<p>
+                @foreach ($post->comments as $comment)
+                    <div class="row">
+                        <div class="media">
+                            <a class="pull-left">
+                                <img class="media-object img-circle" src="/default_pfp.png" style="width:60px; height:60px;">
+                            </a>
+                            <div class="media-body">
+                                <h4><a href="{{route('view.user', ['username'=> $comment->username])}}"><b>{{$comment->username}}</b></a> <small><i>Posted on {{$comment->created_at}} | <b>{{$votes->where('votable_type', 'App\Models\Comment')->where('votable_id', $comment->id)->count()}} Likes</b></i></small></h4>
+                                <p>{{$comment->description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach   
             </div>
         </div>
     </div>
